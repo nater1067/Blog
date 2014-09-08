@@ -17,7 +17,7 @@ categories:
 
 <h2>Vagrant + Puppet Basics</h2>
 <p>
-For the purpose of this tutorial there are only a few things you need to know about Vagrant and Puppet. Vagrant creates virtual machines using a number of different providers. We’ll be using Virtualbox. Vagrant runs Puppet for you on the newly created virtual machine. Puppet handles the installation of various dependencies. (Think apache, mysql, curl, etc.) This process is known as provisioning.
+For the purpose of this tutorial there are only a few things you need to know about Vagrant and Puppet. Vagrant creates virtual machines using a number of different providers. We’ll be using Virtualbox. Vagrant runs Puppet for you on the newly created virtual machine. Puppet handles the installation of various dependencies. (Think Apache, mysql, curl, etc.) This process is known as provisioning.
 </p>
 
 <h2>Why encapsulate development environments with Vagrant?</h2>
@@ -31,7 +31,7 @@ In future tutorials we will be using the environment we create here to start a n
 
 <h2>Create a Symfony Project with Composer</h2>
 <p>
-Let’s have composer install a Symfony 2 project in a directory, let’s call the directory symfony2. Open up a terminal window and enter the following commands:
+Let’s have Composer install a Symfony 2 project in a directory, let’s call the directory symfony2. Open up a terminal window and enter the following commands:
 </p>
 
 ``` bash
@@ -61,7 +61,7 @@ While we are in the new Symfony project, let's disable some security checks in t
 // exit('You are not allowed to access this file. Check '.basename(__FILE__).' for more information.');
 ```
 
-We have Symfony 2, but we’re not going to be able to develop in this awesome framework until it’s running on apache. Let’s have vagrant do the heavy-lifting for this.
+We have Symfony 2, but we’re not going to be able to develop in this awesome framework until it’s running on Apache. Let’s have Vagrant do the heavy-lifting for this.
 
 <h2>Setting up Vagrant</h2>
 <p>
@@ -72,7 +72,7 @@ vagrant init hashicorp/precise32
 ```
 
 <p>
-Then open up the newly created Vagrantfile in your favorite text editor (use PHPStorm!) and enable puppet provisioning. Vagrant is now ready to go.
+Then open up the newly created Vagrantfile in your favorite text editor (use PHPStorm!) and enable Puppet provisioning. Vagrant is now ready to go.
 </p>
 
 ``` ruby
@@ -103,7 +103,7 @@ Let’s face it.. Symfony 2 is amazing and all powerful, but not the fastest fra
 
 <h3>Install our dependencies</h3>
 <p>
-Since we are keeping this puppet script very basic for now, all we need to to install apache, php, modrewrite and mysql. Create a folder called manifests in our project and a file named sites.pp in the new folder.
+Since we are keeping this Puppet script very basic for now, all we need to to install Apache, php, modrewrite and mysql. Create a folder called manifests in our project and a file named sites.pp in the new folder.
 </p>
 
 ``` puppet
@@ -177,7 +177,7 @@ Let’s set up a simple vhost pointing to our symfony project’s web directory.
 </VirtualHost>
 ```
 
-Now we just have to tell puppet to create a symlink to that file in the apache sites-available directory.
+Now we just have to tell Puppet to create a symlink to that file in the Apache sites-available directory.
 
 ``` puppet
 # /manifests/site.pp
@@ -191,9 +191,9 @@ file { "/etc/apache2/sites-available/default":
 }
 ```
 
-<h3>Set apache to run as the vagrant user</h3>
+<h3>Set Apache to run as the Vagrant user</h3>
 Because this is a development-only environment we can use a little hack I stumbled upon on Jeremy Kendall’s blog (http://jeremykendall.net/2013/08/09/vagrant-synced-folders-permissions/).
-All we need to do is change the apache user and group to use vagrant’s user and group. This way apache can write to cache and log directories with no problem!
+All we need to do is change the apache user and group to use Vagrant’s user and group. This way apache can write to cache and log directories with no problem!
 ``` puppet
 exec { "ApacheUserChange" :
   command => "/bin/sed -i 's/APACHE_RUN_USER=www-data/APACHE_RUN_USER=vagrant/' /etc/apache2/envvars",
