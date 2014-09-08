@@ -22,11 +22,7 @@ For the purpose of this tutorial there are only a few things you need to know ab
 
 <h2>Why encapsulate development environments with Vagrant?</h2>
 <p>
-When we use Vagrant to create new virtual development environments we avoid the very real possibility that we could mess up our personal development machines. People have used virtual machines for development for years. The drawbacks of passing around USB sticks with Virtualbox images are easy to spot. For one, without a complicated and slow shared folder setup, you need to use and IDE or text editor inside the VM to modify code. You won’t be able to run this environment headless to free up clock cycles on your host machine. Managing installed applications across a teams VMs is a pain. Why not just include a Vagrantfile and a few Puppet manifests instead? Instead of passing around a virtual machine a few gigabytes in size, just include your Vagrant and Puppet in your source control.
-<br />
-That’s it.
-<br />
-In future tutorials we will be using the environment we create here to start a new virtual machine running Symfony 2 with the above command. See vagrantup.com for more reasons why Vagrant is awesome.
+When we use Vagrant to create new virtual development environments we avoid the very real possibility that we could mess up our personal development machines. People have used virtual machines for development for years. The drawbacks of passing around USB sticks with Virtualbox images are easy to spot. For one, without a complicated and slow shared folder setup, you need to use and IDE or text editor inside the VM to modify code. You won’t be able to run this environment headless to free up clock cycles on your host machine. Managing installed applications across a teams VMs is a pain. Why not just include a Vagrantfile and a few Puppet manifests instead? Instead of passing around a virtual machine a few gigabytes in size, just include your Vagrant and Puppet in a project's source control. That’s it. In future tutorials we will be using the environment we create here to start a new virtual machine running Symfony 2 with the above command. See vagrantup.com for more reasons why Vagrant is awesome.
 <p>
 
 <h2>Create a Symfony Project with Composer</h2>
@@ -72,7 +68,7 @@ vagrant init hashicorp/precise32
 ```
 
 <p>
-Then open up the newly created Vagrantfile in your favorite text editor (use PHPStorm!) and enable Puppet provisioning. Vagrant is now ready to go.
+Then open up the newly created Vagrantfile in your favorite text editor (use PHPStorm!) and enable Puppet provisioning. Also, ensure port 8080 is forwarded to 80 on the VM. Vagrant is now ready to go.
 </p>
 
 ``` ruby
@@ -146,7 +142,7 @@ exec { "/usr/sbin/a2enmod rewrite" :
 ```
 
 <h3>Set up a new VirtualHost</h3>
-First we need to point /var/www to our /vagrant directory and create a
+First we need to point /var/www to our /vagrant directory.
 ``` puppet
 # /manifests/site.pp
 file {"/var/www":
@@ -193,7 +189,7 @@ file { "/etc/apache2/sites-available/default":
 
 <h3>Set Apache to run as the Vagrant user</h3>
 Because this is a development-only environment we can use a little hack I stumbled upon on Jeremy Kendall’s blog (http://jeremykendall.net/2013/08/09/vagrant-synced-folders-permissions/).
-All we need to do is change the apache user and group to use Vagrant’s user and group. This way apache can write to cache and log directories with no problem!
+All we need to do is change the Apache user and group to use Vagrant’s user and group. This way Apache can write to cache and log directories with no problem!
 ``` puppet
 exec { "ApacheUserChange" :
   command => "/bin/sed -i 's/APACHE_RUN_USER=www-data/APACHE_RUN_USER=vagrant/' /etc/apache2/envvars",
@@ -218,22 +214,3 @@ exec { "apache_lockfile_permissions" :
 ```
 
 Now run “vagrant up” from your project directory and watch as your Symfony 2 application comes to life! Navigate to http://127.0.0.1:8080 to see a Symfony 2 welcome page.
-
-<h2>Use Foxy Proxy to make your life easier (Mac OSX/ Linux)</h2>
-If you’re like me and you don’t like seeing an ugly IP address during development, you can use FoxyProxy to easily change the http://127.0.0.1:8080 to vagrant.dev or any url of your choice. First install FoxyProxy.
-Firefox Users: https://addons.mozilla.org/en-US/firefox/addon/foxyproxy-standard/
-Chrome Users: https://chrome.google.com/webstore/detail/foxyproxy-standard/gcknhkkoolaabfmlnjonogaaifnjlfnp?hl=en
-<br />
-
-After installing you should see a little fox somewhere on your browser. Click that fox.
-Make sure “Use proxies based on their pre-defined patterns and priorities” is selected.
-
-{% img /images/spinning-up-symfony-2-dev/enable-foxy.png 700 700 'image' 'images' %}
-
-Click on the new fox and select "Options". Add a new proxy for localhost port 8080.
-
-{% img /images/spinning-up-symfony-2-dev/create-proxy.png 700 700 'image' 'images' %}
-
-Then add a new url pattern. Set “*symfony.dev*” as the url pattern, optionally set a pattern name, make sure whitelist urls and wildcards are selected. Press save, exit foxy proxy and navigate to http://symfony.dev. Happy coding!
-
-{% img /images/spinning-up-symfony-2-dev/whitelist-url.png 700 700 'image' 'images' %}
