@@ -191,6 +191,7 @@ file { "/etc/apache2/sites-available/default":
 Because this is a development-only environment we can use a little hack I stumbled upon on Jeremy Kendall’s blog (http://jeremykendall.net/2013/08/09/vagrant-synced-folders-permissions/).
 All we need to do is change the Apache user and group to use Vagrant’s user and group. This way Apache can write to cache and log directories with no problem!
 ``` puppet
+# /manifests/site.pp
 exec { "ApacheUserChange" :
   command => "/bin/sed -i 's/APACHE_RUN_USER=www-data/APACHE_RUN_USER=vagrant/' /etc/apache2/envvars",
   onlyif  => "/bin/grep -c 'APACHE_RUN_USER=www-data' /etc/apache2/envvars",
@@ -198,7 +199,6 @@ exec { "ApacheUserChange" :
   notify  => Service["apache2"],
 }
 
-# Change group
 exec { "ApacheGroupChange" :
   command => "/bin/sed -i 's/APACHE_RUN_GROUP=www-data/APACHE_RUN_GROUP=vagrant/' /etc/apache2/envvars",
   onlyif  => "/bin/grep -c 'APACHE_RUN_GROUP=www-data' /etc/apache2/envvars",
@@ -214,3 +214,10 @@ exec { "apache_lockfile_permissions" :
 ```
 
 Now run “vagrant up” from your project directory and watch as your Symfony 2 application comes to life! Navigate to http://127.0.0.1:8080 to see a Symfony 2 welcome page.
+
+<h2>Conclusion</h2>
+Now we have a working Symfony 2 project running on a virtual machine we can develop on immediately. To see the real beauty of having Vagrant and Puppet do the work for us, copy this project to another device, run "composer install" and then "vagrant up." You should be able to develop on the project from any host running OSX, Windows or Linux and see your changes at http://127.0.0.1:8080 .
+
+The source can be found on my Github account here: https://github.com/nater1067/Vagrant-Symfony-2 .
+
+Do you know of any ways to improve the project we just created? If so please leave a comment so I can update this post based off your feedback.
