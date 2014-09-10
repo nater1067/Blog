@@ -97,7 +97,7 @@ disqus_short_name: natevegas
 disqus_show_comment_count: false
 
 # Google Analytics
-google_analytics_tracking_id:
+google_analytics_tracking_id: UA-54653096-1
 
 # Facebook Like
 facebook_like: false
