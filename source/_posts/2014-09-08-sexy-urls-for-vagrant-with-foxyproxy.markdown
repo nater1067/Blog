@@ -8,7 +8,7 @@ categories:
 <h2>Use Foxy Proxy to make your life easier (Mac OSX/ Linux)</h2>
 If you’re like me and you don’t like seeing an ugly IP address during development, you can use FoxyProxy to easily change the http://127.0.0.1:8080 to vagrant.dev or any url of your choice.<br />
 <br/>
-Start off with either a Vagrant project of your own, or this basic Symfony 2 Vagrant project here: https://github.com/nater1067/Vagrant-Symfony-2 . Clone the project and follow the installation instructions. Run "vagrant up".<br/>
+Start off with either a Vagrant project of your own, or this basic Symfony 2 Vagrant project here: https://github.com/nateVegas/Vagrant-Symfony-2 . Clone the project and follow the installation instructions. Run "vagrant up".<br/>
 <br />
 Now install FoxyProxy.
 Firefox Users: https://addons.mozilla.org/en-US/firefox/addon/foxyproxy-standard/
