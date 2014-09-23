@@ -25,11 +25,11 @@ Let's take a look at how we can implement Behat to test an e-commerce site.
 
 <h2>Set Up</h2>
 
-Clone the simple e-commerce site and checkout the basic-shop tag. This post assumes you are working in either OSX or Linux.
+Clone the simple e-commerce site and checkout the shop-basic tag. This post assumes you are working in either OSX or Linux.
 {% codeblock lang:bash %}
 git clone https://github.com/nater1067/Shop-Top.git
 cd Shop-Top
-git checkout -b Shop-Top
+git checkout -b shop-basic
 curl -sS https://getcomposer.org/installer | php
 php composer.phar install
 vagrant up
@@ -56,17 +56,17 @@ We need to add a few dependencies to our project using composer. This took a lit
 }
 {% endcodeblock %}
 
-Run composer update to download the the Behat and Mink libraries. Then create the necessary behat files.
+Run composer update to download the the Behat and Mink libraries. Then create the necessary Behat files.
 
 {% codeblock lang:bash %}
 php composer.phar update
 bin/behat --init
 {% endcodeblock %}
 
-This creates a new directory "features" which holds our Gherkin and Behat FeatureContext. Modify the FeatureContext to extend MinkContext.
+This creates a new directory, "features", which holds our Gherkin and Behat FeatureContext. Modify the FeatureContext to extend MinkContext. This allows us to leverage the pre-defined steps included in Mink.
 
 {% codeblock lang:php %}
-
+# features/bootstrap/FeatureContext.php
 use Behat\MinkExtension\Context\MinkContext;
 
 class FeatureContext extends MinkContext
@@ -92,7 +92,7 @@ default:
 Time to write our features in human terms. Create two new files: features/search.feature and features/buy.feature.
 
 {% codeblock lang:Cucumber %}
-# features/search.yml
+# features/search.feature
 Feature: Clothes Search
   In order to search for clothes
   As a shopper
@@ -111,7 +111,7 @@ Feature: Clothes Search
 {% endcodeblock %}
 
 {% codeblock lang:Cucumber %}
-# features/buy.yml
+# features/buy.feature
 Feature: Buy Clothing Item
   In order to buy a clothing item
   As a shopper
@@ -135,4 +135,11 @@ Now that we have created a couple of Gherkin stories, we can run Behat to test o
 bin/behat
 {% endcodeblock %}
 
-We should see our stories outputted to the terminal. If everything works we should see a lot of green, and a summary of successful scenarios and steps.
+Behat is now using a headless browser to confirm whether our app adheres to the steps we've defined in the .feature files. We should see our stories outputted to the terminal. If everything works we should see a lot of green, and a summary of successful scenarios and steps.<br />
+
+The completed source code can be found on the behat branch of the Shop-Top repository on GitHub here: https://github.com/nater1067/Shop-Top/tree/behat .
+
+<h2>What Comes Next</h2>
+Now that you've got Behat running successfully within a Symfony 2 application, it's time to get your hands dirty with more advanced test behavior-driven design. You've seen very simple examples of Behat tests, but Behat can do so much more than check simple forms. Try adding bundle-specific features with the Symfony 2 Behat bundle. Add some tests which check front-end functionality such as AJAX features. Tons of information can be found in the Behat docs at http://docs.behat.org .<br />
+
+Have an improvement for this post? What additional Behat functionality would you like included in this post? Please comment below.
