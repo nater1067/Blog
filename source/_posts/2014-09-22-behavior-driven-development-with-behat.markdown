@@ -140,6 +140,6 @@ Behat is now using a headless browser to confirm whether our app adheres to the 
 The completed source code can be found on the behat branch of the Shop-Top repository on GitHub here: https://github.com/nater1067/Shop-Top/tree/behat .
 
 <h2>What Comes Next</h2>
-Now that you've got Behat running successfully within a Symfony 2 application, it's time to get your hands dirty with more advanced test behavior-driven design. You've seen very simple examples of Behat tests, but Behat can do so much more than check simple forms. Try adding bundle-specific features with the Symfony 2 Behat bundle. Add some tests which check front-end functionality such as AJAX features. Tons of information can be found in the Behat docs at http://docs.behat.org .<br />
+Now that you've got Behat running successfully within a Symfony 2 application, it's time to get your hands dirty with more advanced test behavior-driven development. You've seen very simple examples of Behat tests, but Behat can do so much more than check simple forms. Try adding bundle-specific features with the Symfony 2 Behat bundle. Add some tests which check front-end functionality such as AJAX features. Tons of information can be found in the Behat docs at http://docs.behat.org .<br />
 
 Have an improvement for this post? What additional Behat functionality would you like included in this post? Please comment below.
